@@ -23,22 +23,20 @@ const Home = () => {
     },
   ]);
 
+  const [name, setName] = useState('mario');
+
   const handleDelete = (id) => {
     const newBlogs = blogs.filter((blog) => blog.id !== id);
     setBlogs(newBlogs);
   };
 
   useEffect(() => {
-    console.log("use effect ran");
-  });
-  
+    console.log('use effect ran');
+  }, []);
+
   return (
     <div className='home'>
       <BlogList blogs={blogs} title='all blogs!' handleDelete={handleDelete} />
-      <BlogList
-        blogs={blogs.filter((blog) => blog.author === 'saddik')}
-        title='sadiques blogs!'
-      />
     </div>
   );
 };
