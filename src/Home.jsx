@@ -3,34 +3,27 @@ import BlogList from './BlogList';
 
 const Home = () => {
   const [blogs, setBlogs] = useState(null);
-
-  const [name, setName] = useState('mario');
-
-  const handleDelete = (id) => {
-    const newBlogs = blogs.filter((blog) => blog.id !== id);
-    setBlogs(newBlogs);
-  };
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:8000/blogs')
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        console.log(data);
-        setBlogs(data);
-      });
+    setTimeout(() => {
+      fetch('http://localhost:8000/blogs')
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          console.log(data);
+          setBlogs(data);
+          setLoading(false); // do not show loading message after data is fetched
+        });
+    }, 1000);
   }, []);
 
   return (
     <div className='home'>
-      {blogs && (
-        <BlogList
-          blogs={blogs}
-          title='all blogs!'
-          handleDelete={handleDelete}
-        />
-      )}
+      {isLoading && <div>Loading...</div>}
+
+      {blogs && <BlogList blogs={blogs} title='all blogs!' />}
     </div>
   );
 };
